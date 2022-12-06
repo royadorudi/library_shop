@@ -1,0 +1,61 @@
+<section class="info_section layout_padding2" style="text-align: right">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_detail">
+            <h4>
+              درباره ی ما
+            </h4>
+            <p>{{ info.text }}</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_contact">
+            <h4>
+              آدرس
+            </h4>
+            <div class="contact_link_box">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  {{ info.address }}
+                </span>
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                    {{ info.phone_number }}
+                </span>
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  {{ info.email }}
+                </span>
+            </div>
+          </div>
+        </div>
+            <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_contact">
+            <h4>
+              خبرنامه
+            </h4>
+            <form action="{% url 'subscribe_newsletter' %}" method="post">
+                {% csrf_token %}
+              <input type="text" placeholder="ایمیل خود را وارد کنید" name="newsletter_subscribe">
+              <button type="submit">
+                ثبت
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="map_container">
+            <div id="map" style="height: 180%; width: 180%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<footer class="footer_section">
+    <div class="container">
+      <p>
+        {{ info.copy_right_text }}
+      </p>
+    </div>
+  </footer>

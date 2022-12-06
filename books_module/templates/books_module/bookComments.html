@@ -1,0 +1,114 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+
+{% block title %}
+نظرات کاربران
+{% endblock %}
+
+{% block content %}
+
+    <section class="layout_padding">
+    <h3 style="text-align: right; position: absolute; top: 120px;right: 10px">نظرات کاربران({{ comments_count }})</h3>
+        <br>
+         {% if request.user.is_authenticated %}
+            <div class="col-md-6" style="text-align: right; {% if all_comments.count > 0 %}position: absolute; top: 120px; left: 0;{% endif %}">
+        <h3>نظرتون رو برامون بفرستید:</h3>
+            <form action="{% url 'book_comments_page' book_id=current_book.id book_name=current_book.title parent_id=0 %}" method="post">
+                {% csrf_token %}
+            {% for field in comment_form %}
+                {{ field }}
+                {{ field.errors }}
+            {% endfor %}
+            <div class="btn-box" style="padding: 5px;{% if all_comments.count > 0 %}position:absolute; left: 40px;{% endif %}">
+                <button type="submit" class="btn btn-success">ارسال</button>
+            </div>
+            </form>
+
+            </div>
+            {% else %}
+            <div class="alert alert-info col-md-6" style="text-align: right; {% if all_comments.count > 0 %}position: absolute;top: 150px;left: 20px{% endif %}">
+            <p>برای ارسال نظر باید در سایت ثبت نام کنید و یا <a href="{% url 'login_page' %}">وارد سایت</a> شوید</p>
+            </div>
+        {% endif %}
+
+        <div class="col-md-6" style="text-align: right; top: -50px">
+    {% for comment in all_comments %}
+        <div class="media">
+        <div class="img-fluid">
+            {% if comment.user.avatar %}
+                <img src="{{ comment.user.avatar.url }}" alt="" width="100" height="100">
+                {% else %}
+                <img src="/static/images/userProfile.png" alt="" width="100" height="100">
+            {% endif %}
+        </div>
+        </div>
+        <br>
+
+        <div class="media-body">
+            <h4 class="media-heading">{{ comment.user }}</h4>
+            <p>{{ comment.comment }}</p>
+            <ul class="list-unstyled list-inline media-detail pull-left">
+                <li>
+                    <i class="fa fa-calendar"></i>
+                    {{ comment.submit_date|change_date_to_shamsi }}
+                </li>
+            </ul>
+            {% if comment.user == current_user %}
+                <div class="btn-box" style="padding-bottom: 10px;">
+            <button class="btn btn-danger">
+                <a href="{% url 'delete_comment' comment_id=comment.id %}?next={{ request.path|urlencode }}" style="color: white;">حذف</a>
+            </button>
+            </div>
+            {% endif %}
+        </div>
+
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'book_comments_page' book_id=current_book.id book_name=current_book.title parent_id=comment.id %}" method="post">
+                {% csrf_token %}
+            {% for field in comment_form %}
+                {{ field }}
+                {{ field.errors }}
+            {% endfor %}
+            <div class="btn-box" style="padding: 5px;{% if all_comments.count > 0 %}position:absolute; left: 40px;{% endif %}">
+                <button type="submit" class="btn btn-success">پاسخ</button>
+            </div>
+            </form>
+        {% endif %}
+        <br>
+
+        {% for reply in comment.bookcomments_set.all %}
+            <div class="media">
+        <div class="img-fluid">
+            {% if reply.user.avatar %}
+                <img src="{{ reply.user.avatar.url }}" alt="" width="90" height="90">
+                {% else %}
+                <img src="/static/images/userProfile.png" alt="" width="90" height="90">
+            {% endif %}
+        </div>
+        </div>
+            <br>
+        <div class="media-body" style="color: darkblue">
+            <h6 class="media-heading">{{ reply.user }}</h6>
+            <p>{{ reply.comment }}</p>
+            <ul class="list-unstyled list-inline media-detail pull-left">
+                <li style="font-size: small">
+                    <i class="fa fa-calendar"></i>
+                    {{ reply.submit_date|change_date_to_shamsi }}
+                </li>
+            </ul>
+            {% if reply.user == current_user %}
+                 <div class="btn-box" style="padding-bottom: 10px;">
+                    <button style="background-color: #0c0c0c">
+                        <a href="{% url 'delete_comment' comment_id=reply.id %}?next={{ request.path|urlencode }}" style="color: white">حذف</a>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+            {% endfor %}
+        <br>
+        <br>
+        <hr>
+    {% endfor %}
+</div>
+    </section>
+{% endblock %}

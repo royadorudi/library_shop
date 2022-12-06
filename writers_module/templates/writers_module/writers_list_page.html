@@ -1,0 +1,49 @@
+{% extends 'shared/layout.html' %}
+{% block title %}لیست نویسندگان{% endblock %}
+{% block content %}
+<section class="catagory_section layout_padding">
+    <div class="catagory_container">
+        <div class="container">
+        <div class="heading_container heading_center">
+          <h2>
+            لیست نویسندگان
+          </h2>
+            <hr>
+        </div>
+        <div class="row">
+             {% for writer in writers %}
+                <div class="col-sm-6 col-md-4 ">
+                      <div class="box ">
+                        {% if writer.image %}
+                            <img src="{{ writer.image.url }}" alt="" height="100" width="100">
+                        {% else %}
+                            <img src="/static/images/userProfile.png" alt="" height="100" width="100">
+                        {% endif %}
+                            <div class="detail-box">
+                                <a href="{% url 'writers_detail_page' pk=writer.id str=writer.url_title %}">
+                                    <h5>
+                                    <br>
+                                   {{ writer.name }}
+                                </h5>
+                                </a>
+                            </div>
+                      </div>
+                  </div>
+             {% endfor %}
+        </div>
+        <div class="btn-block" style="padding: 5px">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    <button class="btn btn-info">قبل</button>
+                </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+                    <button class="btn btn-info">بعد</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock %}

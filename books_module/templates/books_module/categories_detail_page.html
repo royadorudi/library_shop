@@ -1,0 +1,44 @@
+{% extends 'shared/layout.html' %}
+{% block title %}{{ books.url_title }}{% endblock %}
+{% block content %}
+<section class="catagory_section layout_padding">
+    <div class="catagory_container">
+      <div class="container ">
+        <div class="heading_container heading_center">
+          <h2>
+            {{ books.url_title }}
+          </h2>
+            <hr>
+        </div>
+        <div class="row">
+             {% for book in books.book_category.all %}
+                  <div class="col-sm-6 col-md-4 ">
+                      <div class="box">
+                            <img src="{{ book.image.url }}" alt="" width="100" height="150">
+                            <div class="detail-box">
+                                <a href="{% url 'book_detail_page' pk=book.id str=book.url_title %}"><h5 style="direction: rtl">
+                                    <hr>
+                                    {{ book.title }}
+                                </h5></a>
+                                <h6>
+                                    {{ book.writer }}
+                                    <br>
+                                    {% if book.translator %}
+                                        {{ book.translator }}
+                                    {% endif %}
+                                    <br>
+                                    {% if book.price %}
+                                        {{ book.price }}
+                                        {% else %}
+                                        رایگان
+                                    {% endif %}
+                                </h6>
+                            </div>
+                      </div>
+                  </div>
+             {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

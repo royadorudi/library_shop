@@ -1,0 +1,79 @@
+<header class="header_section">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="{% url 'home_page' %}">
+            <span>
+              رویا بوک
+            </span>
+          </a>
+          <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="navbar-collapse collapse" id="navbarSupportedContent" style="">
+            <ul class="navbar-nav" style="font-weight: bold">
+              <li class="nav-item active">
+                <a class="nav-link pl-lg-0" href="{% url 'home_page' %}">خانه <span class="sr-only">(current)</span></a>
+              </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      کتابخونه
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'book_categories_page' %}">دسته بندی ها</a>
+                        <a class="dropdown-item" href="{% url 'book_list_page' %}">لیست کتاب ها</a>
+                      <a class="dropdown-item" href="{% url 'writers_list_page' %}">نویسندگان</a>
+                      <a class="dropdown-item" href="{% url 'translators_list_page' %}">مترجمان</a>
+                    </div>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog_list_page' %}"> وبلاگ </a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'contact_us_page' %}">تماس با ما</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{% url 'about_us_page' %}"> درباره ی ما</a>
+              </li>
+            </ul>
+
+              <form class="search_form" action="{% url 'search_box' %}" method="get">
+                {% csrf_token %}
+              <input type="text" class="form-control" placeholder="جست و جو..." style="text-align: left" name="searched">
+                  <button class="" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
+
+             <ul class="navbar-nav" style="font-weight: bold">
+                 {% if request.user.is_authenticated %}
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {% if not request.user.first_name %}
+                              {{ request.user.username }}
+                              {% else %}
+                              {{ request.user.get_full_name }}
+                              {% endif %}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'user_panel_main_page' %}">پنل کاربری</a>
+                            {% if request.user.is_superuser %}
+                                <a class="dropdown-item" href="http://127.0.0.1:8000/admin/">پنل ادمین</a>
+                             {% endif %}
+                            <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'logout_page' %}">خروج</a>
+                        </div>
+                     </li>
+                   {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'login_page' %}">ورود</a>
+                  </li>
+                   <li class="nav-item">
+                       <a class="nav-link" href="{% url 'register_page' %}">ثبت نام</a>
+                   </li>
+                 {% endif %}
+              </ul>
+        </nav>
+      </div>
+</header>

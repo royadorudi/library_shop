@@ -1,0 +1,29 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% block title %}{{ blog.title }}{% endblock %}
+{% block content %}
+<section class="about_section layout_padding" style="text-align: right">
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="{{ blog.image.url }}" alt="not found">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <div class="heading_container">
+              <h2>
+                {{ blog.title }}
+              </h2>
+            </div>
+              <div class="blockquote">
+                  <p>{{ blog.main_text }}</p>
+              <sub>{{ blog.date | change_date_to_shamsi }}</sub>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

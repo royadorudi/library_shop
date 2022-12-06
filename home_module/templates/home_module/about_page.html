@@ -1,0 +1,33 @@
+{% extends 'shared/layout.html' %}
+{% block title %}
+درباره ی ما
+{% endblock %}
+{% block content %}
+    <section class="about_section layout_padding" style="text-align: right">
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="/static/images/about-img.png" alt="not found">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <div class="heading_container" style="direction: rtl">
+              <h2>
+                {{ info.title }}
+              </h2>
+            </div>
+              <div class="blockquote" style="direction: rtl">
+                  <p> <strong class="font-weight-bold">ایمیل:</strong> {{ info.email }}</p>
+                  <p> <strong class="font-weight-bold">شماره تماس:</strong> {{ info.phone_number }}</p>
+                  <p><strong class="font-weight-bold">آدرس:</strong> {{ info.address }}</p>
+                  <br>
+                <p>{{ info.text }}</p>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

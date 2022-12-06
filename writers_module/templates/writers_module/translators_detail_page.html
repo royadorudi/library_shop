@@ -1,0 +1,52 @@
+{% extends 'shared/layout.html' %}
+{% block title %}{{ translator.name }}{% endblock %}
+{% block content %}
+<section class="about_section layout_padding" style="text-align: right">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div>
+              {% if translator.image %}
+                  <img src="{{ translator.image.url }}" width="300x300" alt="not found">
+                  {% else %}
+                  <img src="/static/images/userProfile.png" alt="">
+              {% endif %}
+          </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="detail-box">
+              <div class="blockquote">
+                  <div class="heading_container">
+                  <h2>
+                    {{ translator.name }}
+                  </h2>
+                      <br>
+                </div>
+                  <div style="font-weight: bold;">
+                      {{ translator.about }}
+                  </div>
+              </div>
+          </div>
+            <br>
+            <hr>
+        <h3>کتاب های موجود از این مترجم:</h3>
+            <br>
+            <div class="row">
+                {% for book in related_books %}
+                      <div class="box " style="padding: 5px">
+                        <div class="img-box">
+                            <img src="{{ book.image.url }}" alt="" width="100" height="150">
+                        </div>
+                            <a href="{% url 'book_detail_page' pk=book.id str=book.url_title%}">
+                                <strong>{{ book.title }}</strong>
+                            </a>
+                  </div>
+                {% endfor %}
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

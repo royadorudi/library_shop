@@ -1,0 +1,21 @@
+{% extends 'shared/layout.html' %}
+{% block title %}تغییر کلمه عبور{% endblock %}
+{% block content %}
+<section class="change-pass layout_padding2" style="text-align: right">
+<div class="container">
+    {% include 'forms_messages/messages.html' %}
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'user_pannel_module/includes/dashboard_components.html' %}
+        </div>
+        <div class="col-md-9">
+            <form action="{% url 'change_password_page'%}" method="post">
+                {% csrf_token %}
+                {{ change_pass_form.as_p }}
+                <button type="submit" class="btn btn-success">ذخیره</button>
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'shared/layout.html' %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+<section class="about_section layout_padding" style="text-align: right">
+    <div class="container">
+    {% include 'forms_messages/messages.html' %}
+      <div class="row">
+        <div class="col-md-4">
+          <div>
+              <img src="{{ book.image.url }}" width="300x300" alt="not found">
+          </div>
+        </div>
+
+        <div class="col-md-8">
+              <div class="blockquote">
+                  <div class="heading_container">
+                  <h2>
+                    {{ book.title }}
+                  </h2>
+                      <br>
+                </div>
+                  <div style="font-weight: bold;">
+                    <strong>نویسنده: {% if current_writer %}
+                     <a href="{% url 'writers_detail_page' pk=current_writer.id str=current_writer.url_title%}">{{ book.writer }}</a>
+                        {% else %}
+                        {{ book.writer }}
+                    {% endif %}</strong>
+                      <br>
+
+                      {% if book.translator %}
+                        <strong>مترجم:{% if current_translator %}
+                     <a href="{% url 'translators_detail_page' pk=current_translator.id str=current_translator.url_title%}">{{ book.translator }}</a>
+                        {% else %}
+                        {{ book.translator }}
+                    {% endif %}
+                        </strong>
+                          <br>
+                      {% endif %}
+                  {% if book.price %}
+                    <strong>بها: {{ book.price }}</strong>
+                      <br>
+                      {% else %}
+                      <strong>رایگان</strong>
+                      <br>
+                      <br>
+                      <br>
+                  {% endif %}
+                  <strong>توضیحات:
+                      <br>
+                      {{ book.short_description }}
+                  </strong>
+                  </div>
+
+            <div class="btn-box" style="position: absolute; left: 0; top: 0">
+            {% if request.user.is_authenticated %}
+                 {% if bookmark_check %}
+                <a href="{% url 'remove_from_bookmarks_page' pk=book.id %}?next={{ request.path|urlencode }}">
+                  <button class="btn btn-info" style="font-weight: bold; color: white">حذف نشان</button>
+              </a>
+                  {% else %}
+                  <a href="{% url 'add_to_bookmarks_page' pk=book.id %}?next={{ request.path|urlencode }}">
+                  <button class="btn btn-info" style="font-weight: bold; color: white;">نشان کردن</button>
+              </a>
+              {% endif %}
+                {% else %}
+                <button class="btn btn-info" style="font-weight: bold;">
+                <a href="{% url 'login_page' %}" style="color: white;">
+                نشان کردن
+              </a>
+                </button>
+            {% endif %}
+
+          </div>
+            <div class="btn-box" style="padding: 20px">
+                <a href="{% url 'download_file_page' filename=book.filename %}">
+                      <button class="btn btn-info" style="color: white; font-weight: bold;">دانلود</button>
+                  </a>
+                <button class="btn btn-info">
+                    <a href="{% url 'book_comments_page' book_id=book.id book_name=book.title parent_id=0 %}" style="font-weight: bold; color: white">
+                        نظرات کاربران ({{ book.book_comment.count }})
+                    </a>
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

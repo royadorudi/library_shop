@@ -1,0 +1,29 @@
+{% extends 'shared/layout.html' %}
+{% block title %}ویرایش اطلاعات کاربر{% endblock %}
+{% block content %}
+<section class="edit-profile layout_padding2" style="text-align: right">
+<div class="container">
+    {% include 'forms_messages/messages.html' %}
+    <div class="row">
+        <div class="col-md-3">
+            {% if user.avatar %}
+                 <div class="img-box" style="text-align: left">
+                <img src="{{ user.avatar.url }}" alt="" width="250" height="300">
+            </div>
+            {% endif %}
+            <br>
+            {% include 'user_pannel_module/includes/dashboard_components.html' %}
+        </div>
+        <div class="col-md-9">
+         <div class="detail-box">
+                <form enctype="multipart/form-data" action="{% url 'edit_profile_page' %}" method="post">
+                    {% csrf_token %}
+                    {{ edit_profile_form.as_p }}
+                    <button type="submit" class="btn btn-success">ذخیره</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}

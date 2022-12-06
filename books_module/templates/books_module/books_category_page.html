@@ -1,0 +1,52 @@
+{% extends 'shared/layout.html' %}
+{% block title %}دسته بندی کتاب ها{% endblock %}
+{% block content %}
+<section class="catagory_section layout_padding">
+    <div class="catagory_container">
+      <div class="container ">
+        <div class="heading_container heading_center">
+          <h2>
+            دسته بندی کتاب ها
+          </h2>
+            <hr>
+        </div>
+        <div class="row">
+            {% if book_categories %}
+            {% for category in book_categories %}
+                    <div class="col-sm-6 col-md-4 ">
+                  <a href="{% url 'book_categories_detail_page' pk=category.id str=category.url_title %}">
+                      <div class="box ">
+              <div class="img-box">
+                <img src="{{ category.image.url }}" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  {{ category.title }}
+                </h5>
+              </div>
+            </div>
+                  </a>
+            </div>
+          {% endfor %}
+            {% else %}
+            <div class="col-md-12" style="text-align: right; font-weight: bold">
+            <p class="alert alert-warning">دسته بندی هنوز وجود ندارد...</p>
+            </div>
+        {% endif %}
+        </div>
+      <div class="btn-block" style="padding: 5px">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    <button class="btn btn-info">قبل</button>
+                </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+                    <button class="btn btn-info">بعد</button>
+                </a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

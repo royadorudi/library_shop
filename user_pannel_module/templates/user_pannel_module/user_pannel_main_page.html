@@ -1,0 +1,24 @@
+{% extends 'shared/layout.html' %}
+{% block title %}داشبورد{% endblock %}
+{% block content %}
+    <section class="dashboard layout_padding2" style="text-align: right;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="detail-box">
+                    {% include 'user_pannel_module/includes/dashboard_components.html' %}
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="detail-box">
+                    <h1>خوش اومدی 😁🥳</h1>
+                    <br>
+                    <h3>قراره کلی باهم خوش بگذرونیم😉</h3>
+                    <br>
+                    <button class="btn btn-info"><a style="color: white" href="{% url 'home_page' %}">بزن بریم!</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock %}

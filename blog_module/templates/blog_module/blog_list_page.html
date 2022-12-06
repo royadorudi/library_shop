@@ -1,0 +1,60 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% block title %}لیست مقالات{% endblock %}
+{% block content %}
+<section class="blog_section layout_padding" style="text-align: right">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>
+          لیست مقالات
+        </h2>
+          <hr>
+      </div>
+    {% if blog_list %}
+        <div class="row">
+          {% for blog in blog_list %}
+                    <div class="col-md-6">
+                        <div class="box">
+            <div class="img-box">
+              <img src="{{ blog.image.url }}" alt="">
+              <h4 class="blog_date">
+                <span>
+                  {{ blog.date | change_date_to_shamsi }}
+                </span>
+              </h4>
+            </div>
+            <div class="detail-box">
+              <h5>
+                {{ blog.title }}
+              </h5>
+              <p>
+                {{ blog.short_description }}
+              </p>
+              <a href="{% url 'blog_detail_page' pk=blog.id str=blog.url_title %}">
+                ...بیشتر
+              </a>
+            </div>
+          </div>
+                    </div>
+          {% endfor %}
+      </div>
+        {% else %}
+        <div class="col-md-12" style="text-align: right; font-weight: bold">
+            <p class="alert alert-warning">مقاله ای هنوز وجود ندارد...</p>
+        </div>
+    {% endif %}
+    <div class="btn-block" style="padding: 5px">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    <button class="btn btn-info">قبل</button>
+                </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+                    <button class="btn btn-info">بعد</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+  </section>
+{% endblock %}

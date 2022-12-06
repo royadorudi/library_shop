@@ -1,0 +1,56 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% block title %}نتایج جست و جو{% endblock %}
+{% block content %}
+    <section class="catagory_section layout_padding">
+        <div class="catagory_container">
+            <div class="container">
+            {% if searched %}
+        <h3 style="font-weight: bold; text-align: right">نتایج جست و جو برای: {{ searched }}</h3>
+                <hr>
+                <div class="row">
+                    {% if books %}
+                        {% for book in page_obj.object_list %}
+                            <div class="col-sm-6 col-md-4">
+                                <div class="box">
+                                            <img src="{{ book.image.url }}" alt="" width="100" height="100">
+                                        <br>
+                                        <div class="detail-box" style="font-weight: bold;">
+                                            <strong><a href="{% url 'book_detail_page' pk=book.id str=book.url_title %}">{{ book.title }}</a></strong>
+                                            <br>
+                                        <strong>{{ book.writer }}</strong>
+                                            <br>
+                                            {% if book.translator %}
+                                                <strong>{{ book.translator }}</strong>
+                                            {% endif %}
+                                        </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-md-6 alert alert-warning" style="font-weight: bold; text-align: right">
+                    <p>چیزی یافت نشد!</p>
+                    </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="col-md-6 alert alert-warning" style="font-weight: bold; text-align: right">
+        <p>چیزی یافت نشد!</p>
+        </div>
+            {% endif %}
+            <div class="btn-block" style="padding: 5px">
+            {% if page_obj.has_previous %}
+                <a href="?{% url_replace request 'page' page_obj.previous_page_number %}">
+                    <button class="btn btn-info">قبل</button>
+                </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?{% url_replace request 'page' page_obj.next_page_number %}">
+                    <button class="btn btn-info">بعد</button>
+                </a>
+            {% endif %}
+        </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

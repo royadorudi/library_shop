@@ -1,0 +1,37 @@
+{% extends 'shared/layout.html' %}
+{% block title %}تماس با ما{% endblock %}
+{% block content %}
+<section class="contact_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 "  style="font-weight: bold; text-align: right">
+          <div class="heading_container ">
+            <h2 class="">
+              با ما در ارتباط باشید
+            </h2>
+          </div>
+          <form action="{% url 'contact_us_page' %}" method="post">
+                {% csrf_token %}
+              {% for field in form %}
+                <div class="col-md-12 form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+              {% endfor %}
+            <div class="btn-box">
+              <button>
+                ارسال
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="/static/images/contact-img.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

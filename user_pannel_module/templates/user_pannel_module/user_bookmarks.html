@@ -1,0 +1,67 @@
+{% extends 'shared/layout.html' %}
+{% load poll_extras %}
+{% block title %}نشان شده ها{% endblock %}
+{% block content %}
+<section class="layout_padding2" style="text-align: right">
+<div class="container">
+    {% include 'forms_messages/messages.html' %}
+    <div class="row">
+        <div class="col-md-3">
+            {% include 'user_pannel_module/includes/dashboard_components.html' %}
+        </div>
+        <div class="col-md-9">
+        {% if bookmarks %}
+            <ul class="list-group">
+             {% for bookmark in page_obj.object_list %}
+                <li class="list-group-item list-group-horizontal">
+                <div class="img-box">
+                    <img src="{{ bookmark.image.url }}" alt="" width="75" height="85">
+                </div>
+                    <br>
+                <div class="detail-box" style="font-weight: bold;">
+                    <a href="{% url 'book_detail_page' pk=bookmark.id str=bookmark.url_title %}">{{ bookmark.title }}</a>
+                    <div style="position: absolute; right: 120px; top: 10px;">
+                        <p>{{ bookmark.writer }}</p>
+                        {% if bookmark.translator %}
+                            <p>{{ bookmark.translator }}</p>
+                        {% endif %}
+                        {% if bookmark.price %}
+                            <p>{{ bookmark.price }}</p>
+                            {% else %}
+                            <p>رایگان</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'remove_from_bookmarks_page' pk=bookmark.id %}?next={{ request.path|urlencode }}">
+                        <button class="btn btn-danger" style="color: white; position: absolute; left: 20px; top:50px;">پاک کردن</button>
+                    </a>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+            {% else %}
+            <div class="alert alert-warning" style="font-weight: bold">
+            <p>هنوز بوک مارکی نداری!</p>
+            </div>
+            <div class="btn-box">
+                <button class="btn btn-link" style="font-weight: bold;">
+                    <a href="{% url 'book_list_page' %}" style="">برو به لیست کتاب ها!</a>
+                </button>
+            </div>
+        {% endif %}
+        </div>
+        <div class="btn-block" style="padding: 15px;">
+            {% if page_obj.has_previous %}
+                <a href="?{% url_replace request 'page' page_obj.previous_page_number %}">
+                    <button class="btn btn-info" style="float: left">قبل</button>
+                </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?{% url_replace request 'page' page_obj.next_page_number %}">
+                    <button class="btn btn-info" style="float: left">بعد</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}
