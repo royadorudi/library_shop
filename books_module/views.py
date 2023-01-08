@@ -38,10 +38,23 @@ class BookDetailView(DetailView):
         context['bookmark_check'] = False
         pk = self.kwargs.get('pk')
         url_title = self.kwargs.get('str')
-        current_writer = Writers.objects.filter(book__id=pk, book__url_title=url_title).first()
-        current_translator = Translators.objects.filter(book__id=pk, book__url_title=url_title).first()
+        current_book = Books.objects.filter(id=pk).first()
+        writer_name = current_book.writer
+        translator_name = current_book.translator
+
+        current_writer = Writers.objects.filter(name=writer_name).first()
+        if current_writer is not None:
+            current_writer.book.add(current_book)
+            current_writer.save()
+
+        current_translator = Translators.objects.filter(name=translator_name).first()
+        if current_translator is not None:
+            current_translator.book.add(current_book)
+            current_translator.save()
+
         context['current_writer'] = current_writer
         context['current_translator'] = current_translator
+
         if Books.objects.filter(bookmarks__id=self.request.user.id, id=pk, url_title=url_title).exists():
             context['bookmark_check'] = True
         return context

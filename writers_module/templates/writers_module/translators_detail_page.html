@@ -29,8 +29,10 @@
               </div>
           </div>
             <br>
-            <hr>
-        <h3>کتاب های موجود از این مترجم:</h3>
+           {% if related_books %}
+                 <hr>
+            <h3>کتاب های موجود از این مترجم:</h3>
+           {% endif %}
             <br>
             <div class="row">
                 {% for book in related_books %}
